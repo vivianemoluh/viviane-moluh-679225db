@@ -9,38 +9,287 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RessourcesRouteImport } from './routes/ressources'
+import { Route as PolitiqueDeConfidentialiteRouteImport } from './routes/politique-de-confidentialite'
+import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as LivresRouteImport } from './routes/livres'
+import { Route as GalerieRouteImport } from './routes/galerie'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ChroniquesRouteImport } from './routes/chroniques'
+import { Route as BiographieRouteImport } from './routes/biographie'
+import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LivresSlugRouteImport } from './routes/livres.$slug'
+import { Route as ChroniquesSlugRouteImport } from './routes/chroniques.$slug'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RessourcesRoute = RessourcesRouteImport.update({
+  id: '/ressources',
+  path: '/ressources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PolitiqueDeConfidentialiteRoute =
+  PolitiqueDeConfidentialiteRouteImport.update({
+    id: '/politique-de-confidentialite',
+    path: '/politique-de-confidentialite',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const NewsletterRoute = NewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LivresRoute = LivresRouteImport.update({
+  id: '/livres',
+  path: '/livres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalerieRoute = GalerieRouteImport.update({
+  id: '/galerie',
+  path: '/galerie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChroniquesRoute = ChroniquesRouteImport.update({
+  id: '/chroniques',
+  path: '/chroniques',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BiographieRoute = BiographieRouteImport.update({
+  id: '/biographie',
+  path: '/biographie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendaRoute = AgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LivresSlugRoute = LivresSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LivresRoute,
+} as any)
+const ChroniquesSlugRoute = ChroniquesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ChroniquesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/biographie': typeof BiographieRoute
+  '/chroniques': typeof ChroniquesRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/galerie': typeof GalerieRoute
+  '/livres': typeof LivresRouteWithChildren
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/newsletter': typeof NewsletterRoute
+  '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
+  '/ressources': typeof RessourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chroniques/$slug': typeof ChroniquesSlugRoute
+  '/livres/$slug': typeof LivresSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/biographie': typeof BiographieRoute
+  '/chroniques': typeof ChroniquesRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/galerie': typeof GalerieRoute
+  '/livres': typeof LivresRouteWithChildren
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/newsletter': typeof NewsletterRoute
+  '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
+  '/ressources': typeof RessourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chroniques/$slug': typeof ChroniquesSlugRoute
+  '/livres/$slug': typeof LivresSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
+  '/biographie': typeof BiographieRoute
+  '/chroniques': typeof ChroniquesRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/galerie': typeof GalerieRoute
+  '/livres': typeof LivresRouteWithChildren
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/newsletter': typeof NewsletterRoute
+  '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
+  '/ressources': typeof RessourcesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/chroniques/$slug': typeof ChroniquesSlugRoute
+  '/livres/$slug': typeof LivresSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/agenda'
+    | '/biographie'
+    | '/chroniques'
+    | '/contact'
+    | '/galerie'
+    | '/livres'
+    | '/mentions-legales'
+    | '/newsletter'
+    | '/politique-de-confidentialite'
+    | '/ressources'
+    | '/sitemap.xml'
+    | '/chroniques/$slug'
+    | '/livres/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/agenda'
+    | '/biographie'
+    | '/chroniques'
+    | '/contact'
+    | '/galerie'
+    | '/livres'
+    | '/mentions-legales'
+    | '/newsletter'
+    | '/politique-de-confidentialite'
+    | '/ressources'
+    | '/sitemap.xml'
+    | '/chroniques/$slug'
+    | '/livres/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/agenda'
+    | '/biographie'
+    | '/chroniques'
+    | '/contact'
+    | '/galerie'
+    | '/livres'
+    | '/mentions-legales'
+    | '/newsletter'
+    | '/politique-de-confidentialite'
+    | '/ressources'
+    | '/sitemap.xml'
+    | '/chroniques/$slug'
+    | '/livres/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgendaRoute: typeof AgendaRoute
+  BiographieRoute: typeof BiographieRoute
+  ChroniquesRoute: typeof ChroniquesRouteWithChildren
+  ContactRoute: typeof ContactRoute
+  GalerieRoute: typeof GalerieRoute
+  LivresRoute: typeof LivresRouteWithChildren
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
+  NewsletterRoute: typeof NewsletterRoute
+  PolitiqueDeConfidentialiteRoute: typeof PolitiqueDeConfidentialiteRoute
+  RessourcesRoute: typeof RessourcesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ressources': {
+      id: '/ressources'
+      path: '/ressources'
+      fullPath: '/ressources'
+      preLoaderRoute: typeof RessourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politique-de-confidentialite': {
+      id: '/politique-de-confidentialite'
+      path: '/politique-de-confidentialite'
+      fullPath: '/politique-de-confidentialite'
+      preLoaderRoute: typeof PolitiqueDeConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsletter': {
+      id: '/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/livres': {
+      id: '/livres'
+      path: '/livres'
+      fullPath: '/livres'
+      preLoaderRoute: typeof LivresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/galerie': {
+      id: '/galerie'
+      path: '/galerie'
+      fullPath: '/galerie'
+      preLoaderRoute: typeof GalerieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chroniques': {
+      id: '/chroniques'
+      path: '/chroniques'
+      fullPath: '/chroniques'
+      preLoaderRoute: typeof ChroniquesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/biographie': {
+      id: '/biographie'
+      path: '/biographie'
+      fullPath: '/biographie'
+      preLoaderRoute: typeof BiographieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agenda': {
+      id: '/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +297,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/livres/$slug': {
+      id: '/livres/$slug'
+      path: '/$slug'
+      fullPath: '/livres/$slug'
+      preLoaderRoute: typeof LivresSlugRouteImport
+      parentRoute: typeof LivresRoute
+    }
+    '/chroniques/$slug': {
+      id: '/chroniques/$slug'
+      path: '/$slug'
+      fullPath: '/chroniques/$slug'
+      preLoaderRoute: typeof ChroniquesSlugRouteImport
+      parentRoute: typeof ChroniquesRoute
+    }
   }
 }
 
+interface ChroniquesRouteChildren {
+  ChroniquesSlugRoute: typeof ChroniquesSlugRoute
+}
+
+const ChroniquesRouteChildren: ChroniquesRouteChildren = {
+  ChroniquesSlugRoute: ChroniquesSlugRoute,
+}
+
+const ChroniquesRouteWithChildren = ChroniquesRoute._addFileChildren(
+  ChroniquesRouteChildren,
+)
+
+interface LivresRouteChildren {
+  LivresSlugRoute: typeof LivresSlugRoute
+}
+
+const LivresRouteChildren: LivresRouteChildren = {
+  LivresSlugRoute: LivresSlugRoute,
+}
+
+const LivresRouteWithChildren =
+  LivresRoute._addFileChildren(LivresRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgendaRoute: AgendaRoute,
+  BiographieRoute: BiographieRoute,
+  ChroniquesRoute: ChroniquesRouteWithChildren,
+  ContactRoute: ContactRoute,
+  GalerieRoute: GalerieRoute,
+  LivresRoute: LivresRouteWithChildren,
+  MentionsLegalesRoute: MentionsLegalesRoute,
+  NewsletterRoute: NewsletterRoute,
+  PolitiqueDeConfidentialiteRoute: PolitiqueDeConfidentialiteRoute,
+  RessourcesRoute: RessourcesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
