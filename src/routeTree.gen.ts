@@ -19,10 +19,14 @@ import { Route as GalerieRouteImport } from './routes/galerie'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ChroniquesRouteImport } from './routes/chroniques'
 import { Route as BiographieRouteImport } from './routes/biographie'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LivresSlugRouteImport } from './routes/livres.$slug'
 import { Route as ChroniquesSlugRouteImport } from './routes/chroniques.$slug'
+import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -75,9 +79,18 @@ const BiographieRoute = BiographieRouteImport.update({
   path: '/biographie',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgendaRoute = AgendaRouteImport.update({
   id: '/agenda',
   path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -95,10 +108,21 @@ const ChroniquesSlugRoute = ChroniquesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ChroniquesRoute,
 } as any)
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/auth': typeof AuthRoute
   '/biographie': typeof BiographieRoute
   '/chroniques': typeof ChroniquesRouteWithChildren
   '/contact': typeof ContactRoute
@@ -109,12 +133,15 @@ export interface FileRoutesByFullPath {
   '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
   '/ressources': typeof RessourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/chroniques/$slug': typeof ChroniquesSlugRoute
   '/livres/$slug': typeof LivresSlugRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
+  '/auth': typeof AuthRoute
   '/biographie': typeof BiographieRoute
   '/chroniques': typeof ChroniquesRouteWithChildren
   '/contact': typeof ContactRoute
@@ -127,11 +154,14 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/chroniques/$slug': typeof ChroniquesSlugRoute
   '/livres/$slug': typeof LivresSlugRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/agenda': typeof AgendaRoute
+  '/auth': typeof AuthRoute
   '/biographie': typeof BiographieRoute
   '/chroniques': typeof ChroniquesRouteWithChildren
   '/contact': typeof ContactRoute
@@ -142,14 +172,17 @@ export interface FileRoutesById {
   '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
   '/ressources': typeof RessourcesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/chroniques/$slug': typeof ChroniquesSlugRoute
   '/livres/$slug': typeof LivresSlugRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/agenda'
+    | '/auth'
     | '/biographie'
     | '/chroniques'
     | '/contact'
@@ -160,12 +193,15 @@ export interface FileRouteTypes {
     | '/politique-de-confidentialite'
     | '/ressources'
     | '/sitemap.xml'
+    | '/admin'
     | '/chroniques/$slug'
     | '/livres/$slug'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agenda'
+    | '/auth'
     | '/biographie'
     | '/chroniques'
     | '/contact'
@@ -178,10 +214,13 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/chroniques/$slug'
     | '/livres/$slug'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/agenda'
+    | '/auth'
     | '/biographie'
     | '/chroniques'
     | '/contact'
@@ -192,13 +231,17 @@ export interface FileRouteTypes {
     | '/politique-de-confidentialite'
     | '/ressources'
     | '/sitemap.xml'
+    | '/_authenticated/admin'
     | '/chroniques/$slug'
     | '/livres/$slug'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AgendaRoute: typeof AgendaRoute
+  AuthRoute: typeof AuthRoute
   BiographieRoute: typeof BiographieRoute
   ChroniquesRoute: typeof ChroniquesRouteWithChildren
   ContactRoute: typeof ContactRoute
@@ -283,11 +326,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BiographieRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agenda': {
       id: '/agenda'
       path: '/agenda'
       fullPath: '/agenda'
       preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -311,8 +368,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChroniquesSlugRouteImport
       parentRoute: typeof ChroniquesRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
+
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface ChroniquesRouteChildren {
   ChroniquesSlugRoute: typeof ChroniquesSlugRoute
@@ -339,7 +435,9 @@ const LivresRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AgendaRoute: AgendaRoute,
+  AuthRoute: AuthRoute,
   BiographieRoute: BiographieRoute,
   ChroniquesRoute: ChroniquesRouteWithChildren,
   ContactRoute: ContactRoute,
