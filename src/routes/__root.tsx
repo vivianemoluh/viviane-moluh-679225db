@@ -139,7 +139,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 animate-[fade-in_0.55s_ease-out]">
           <Outlet />
         </main>
         <Footer />
