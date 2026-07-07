@@ -65,25 +65,27 @@ export const resources = {
 
       bio: {
         title: "Biographie",
-        kicker: "À propos de l'autrice",
+        kicker: "À propos de l'auteure",
         leadFr:
-          "Viviane Moluh Peyou est écrivaine, poétesse et chercheuse camerounaise. Titulaire d'une formation en Lettres Modernes, majore de promotion de l'ENS de Yaoundé en 2007, elle conjugue rigueur académique et écriture sensible.",
-        expertiseTitle: "Expertise professionnelle",
+          "Viviane MOLUH PEYOU est diplômée de l'École Normale Supérieure de Yaoundé et actuellement Inspecteur Régional de Pédagogie.",
+        expertiseTitle: "Parcours & responsabilités",
         expertiseBody:
-          "Spécialiste des questions de violences faites aux femmes et de l'ingénierie pédagogique, elle accompagne institutions et organisations dans la prévention, la formation et la conception de dispositifs éducatifs.",
-        visionTitle: "Vision de l'écriture",
+          "Secrétaire Générale du Collectif des écrivains L'Encre des Mum, Secrétaire à la Communication du Cercle des Enseignants de Lettres Classiques du Cameroun (CELCLAC), et tuteur-coach dans le Programme d'Appui au Développement de l'Enseignement pour la Croissance et l'Emploi (PADESCE) impulsé par la Banque Mondiale. Originaire de Koumenke, dans le Noun.",
+        visionTitle: "Œuvre",
         visionBody:
-          "Écrire, c'est pour elle déplier le silence : rendre lisibles les vies tues, restituer aux femmes la pleine puissance de leur récit, et offrir à la langue française les inflexions du continent africain.",
+          "Auteure de deux romans — Les choix de l'ombre (Masque et Cauris, 2021) et Poùre, le mouton noir des Njoya (AfricAvenir, 2021) — et co-auteure des manuels officiels LATINITAS (Éclosion, 2024) inscrits sur la liste officielle des manuels scolaires au Cameroun. Elle a également supervisé la rédaction des 61ᵉ et 62ᵉ collections des recueils de Contes d'Enfants d'Afrique dans le Programme ACS-Cameroun (Ducere Foundation Ltd, 2024).",
         timelineTitle: "Jalons",
         timeline: [
-          { year: "2007", text: "Majore de promotion en Lettres Modernes, ENS de Yaoundé" },
-          { year: "2018", text: "Co-direction de l'anthologie collective Gestes poétiques" },
-          { year: "2020", text: "Publication du roman Poùre, le mouton noir des Njoya" },
-          { year: "2022", text: "Publication du roman Les choix de l'ombre" },
-          { year: "2025", text: "Création de la pièce de théâtre Le silence des gènes" },
+          { year: "ENS Yaoundé", text: "Diplômée de l'École Normale Supérieure de Yaoundé." },
+          { year: "2021", text: "Publication du roman Les choix de l'ombre (Masque et Cauris)." },
+          { year: "2021", text: "Publication du roman Poùre, le mouton noir des Njoya (AfricAvenir)." },
+          { year: "2024", text: "Co-auteure des manuels officiels LATINITAS 6ᵉ/5ᵉ et 4ᵉ/3ᵉ (Éclosion)." },
+          { year: "2024", text: "Supervision des 61ᵉ et 62ᵉ collections des Contes d'Enfants d'Afrique — Programme ACS-Cameroun (Ducere Foundation Ltd)." },
+          { year: "Aujourd'hui", text: "Inspecteur Régional de Pédagogie. Secrétaire Générale de L'Encre des Mum. Secrétaire à la Communication du CELCLAC. Tuteur-coach PADESCE (Banque Mondiale)." },
         ],
         pressKit: "Télécharger le dossier de presse",
       },
+
       books: {
         title: "Mes livres",
         intro: "Romans, poésie, théâtre. Une œuvre traversée par les questions de mémoire, de liberté et de transmission.",
