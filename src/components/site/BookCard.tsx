@@ -35,6 +35,11 @@ export function BookCard({ book, lang }: { book: Book; lang: string }) {
       </div>
       <div className="mt-4">
         <h3 className="text-xl">{book.title_fr}</h3>
+        {book.genre === "Manuel scolaire" && (
+          <span className="mt-2 inline-block rounded-full bg-gold/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-gold">
+            {t("books.officialBadge")}
+          </span>
+        )}
         {book.publication_year && (
           <p className="font-quote mt-1 text-sm text-muted-foreground">{book.publication_year}</p>
         )}
@@ -45,6 +50,7 @@ export function BookCard({ book, lang }: { book: Book; lang: string }) {
           {t("common.readMore")} →
         </span>
       </div>
+
     </Link>
   );
 }
