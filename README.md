@@ -1,190 +1,172 @@
 # 📚 Site Viviane Moluh Peyou — Guide de mise en service
 
-Ce document récapitule **tout ce qui reste à faire** pour rendre le site public et 100% utilisable, et **comment l'administrer** au quotidien.
+Ce document explique **comment administrer le site**, **où uploader les images**, **comment configurer votre Supabase et Brevo**, et **quoi faire pour publier**.
 
 ---
 
-## ✅ Ce qui est déjà implémenté
+## 1. Accéder au panneau admin
 
-### Frontend public (bilingue FR/EN)
-- Accueil avec hero animé, parallax, shimmer doré sur le nom
-- Biographie, Livres (liste + fiche détaillée), Chroniques (liste + détail), Agenda, Galerie, Ressources, Newsletter, Contact
-- Mentions légales, Politique de confidentialité, Cookie banner
-- Bascule FR/EN instantanée (toutes les chaînes traduites)
-- SEO : titres, meta, OpenGraph, JSON-LD Person, sitemap.xml, robots.txt
-- Animations Framer Motion (page transitions, parallax, scroll-reveal, hover livres)
-- Responsive mobile / tablette / desktop
+1. Ouvrez le site : `https://viviane-moluh.lovable.app/auth`
+2. Créez un compte (email + mot de passe) — cette page fonctionne aussi comme inscription.
+3. Récupérez votre **user id** dans le tableau de bord Supabase → *Authentication → Users*.
+4. Dans le **SQL Editor** Supabase, exécutez (en remplaçant `VOTRE_USER_ID`) :
 
-### Backend (Lovable Cloud / Supabase)
-- Tables : `books`, `articles`, `events`, `gallery`, `resources`, `reviews`, `contact_messages`, `newsletter_subscribers`, `user_roles`
-- Système de rôles sécurisé (`admin`, `editor`, `user`) avec fonction `has_role`
-- RLS strict : seuls les **admins** peuvent modifier le contenu
-- Bucket de stockage `media` (couvertures, galerie, ressources)
-- Server functions sécurisées : envoi de message contact + inscription newsletter
+   ```sql
+   INSERT INTO public.user_roles (user_id, role)
+   VALUES ('VOTRE_USER_ID', 'admin');
+   ```
 
-### Panneau admin (`/admin`)
-- Authentification (email + mot de passe)
-- Tableau de bord avec statistiques
-- CRUD complet : Livres, Chroniques, Agenda, Galerie, Ressources
-- Modération : Avis lecteurs, Messages reçus
-- Liste des abonnés newsletter + export CSV
-- Upload d'images / fichiers directement depuis l'interface
+5. Rechargez le site — vous avez maintenant accès à `/admin` (Livres, Chroniques, Agenda, Galerie, Ressources, Avis, Messages, Abonnés).
 
 ---
 
-## 🚀 Étapes pour passer en production
+## 2. Uploader les couvertures de livres
 
-### 1️⃣ Créer le premier administrateur
+### Où stocker les images ?
+- **Service** : Supabase Storage (déjà configuré, **pas besoin d'un autre service**).
+- **Bucket** : `media` (déjà créé, **public en lecture**).
+- **Sous-dossier recommandé** : `covers/` pour les couvertures, `gallery/` pour la galerie, `photos/` pour le portrait.
 
-Le système refuse les inscriptions publiques. Voici la procédure :
+### Depuis le panneau admin (recommandé — sans toucher au code)
+1. Aller sur `/admin/books`.
+2. Cliquer sur *Modifier* pour un livre.
+3. Cliquer sur *Uploader une couverture*.
+4. Sélectionner le fichier — l'URL est enregistrée automatiquement dans le champ `cover_url` de la table `books`.
 
-**a. Créer l'utilisateur**
-- Va dans **Backend → Users** (bouton "View Backend" en haut)
-- Clique sur "Add user" → entre l'email et le mot de passe de Viviane (ou le tien pour test)
-- ⚠️ Coche "Auto Confirm User" pour activer le compte tout de suite
+### Directement dans Supabase (sans passer par le code)
+1. Ouvrir Supabase → *Storage* → bucket **`media`** → dossier **`covers/`**.
+2. Cliquer *Upload file* et déposer par exemple `les-choix-de-lombre.jpg`.
+3. Copier l'URL publique (menu 3-points → *Get URL*).
+4. Ouvrir Supabase → *Table Editor* → table **`books`**.
+5. Éditer la ligne du livre concerné et coller l'URL dans le champ **`cover_url`**.
+6. Sauvegarder. Le site affiche la couverture immédiatement.
 
-**b. Lui donner le rôle admin**
-- Va dans **Backend → SQL Editor** et exécute :
+**Correspondance slug → livre :**
+- `les-choix-de-l-ombre` → *Les choix de l'ombre*
+- `poure-mouton-noir-njoya` → *Poùre, le mouton noir des Njoya*
+- `latinitas-6e-5e` → *LATINITAS 6ᵉ/5ᵉ*
+- `latinitas-4e-3e` → *LATINITAS 4ᵉ/3ᵉ*
 
-```sql
-INSERT INTO public.user_roles (user_id, role)
-SELECT id, 'admin'::public.app_role
-FROM auth.users
-WHERE email = 'EMAIL_DE_L_ADMIN@exemple.com';
+---
+
+## 3. Photo du portrait (page d'accueil)
+
+La photo actuelle vous a été fournie par vous-même (`hero_pictures.jpg`) et est déjà en place, servie par le CDN de l'hébergeur. Pour la changer :
+
+**Option A — Remplacer via chat Lovable** (le plus simple) : envoyez la nouvelle photo dans le chat et demandez « remplace la photo du hero ».
+
+**Option B — Manuellement** :
+1. Uploader la nouvelle photo dans Supabase Storage → bucket `media` → dossier `photos/`.
+2. Récupérer l'URL publique.
+3. Dans le code : ouvrir `src/routes/index.tsx`, remplacer l'import `heroPortrait` par un tag `<img src="URL_COPIÉE" ... />`.
+
+---
+
+## 4. Variables d'environnement — sécurité
+
+**Aucune clé API n'est écrite en dur dans le code.** Toutes les clés sont lues depuis des variables d'environnement.
+
+### Fichiers concernés
+
+| Fichier | Rôle |
+|---|---|
+| `.env` | Vos vraies clés (à la racine, **jamais commité**) |
+| `.env.example` | Modèle des variables attendues (commité, sans secrets) |
+| `src/integrations/supabase/client.ts` | Lit `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY` (frontend) |
+| `src/integrations/supabase/client.server.ts` | Lit `SUPABASE_SERVICE_ROLE_KEY` (server functions) |
+| `src/lib/newsletter.functions.ts` | Lit `BREVO_API_KEY` + `BREVO_LIST_ID` (envoi Brevo) |
+
+### Où placer `.env`
+À la **racine du projet** (au même niveau que `package.json`). Il est déjà dans `.gitignore`.
+
+### Modèle (voir `.env.example`)
+
+```env
+# --- Supabase (nouveau projet perso) ---
+VITE_SUPABASE_URL="https://dafgpqzomhoqscjnscsw.supabase.co"
+VITE_SUPABASE_PUBLISHABLE_KEY="votre_anon_key"
+VITE_SUPABASE_PROJECT_ID="dafgpqzomhoqscjnscsw"
+SUPABASE_URL="https://dafgpqzomhoqscjnscsw.supabase.co"
+SUPABASE_PUBLISHABLE_KEY="votre_anon_key"
+SUPABASE_PROJECT_ID="dafgpqzomhoqscjnscsw"
+SUPABASE_SERVICE_ROLE_KEY="votre_service_role_key"
+
+# --- Brevo (Newsletter) ---
+BREVO_API_KEY="xkeysib-..."
+BREVO_LIST_ID="3"
 ```
 
-**c. Se connecter**
-- Va sur `https://TON-SITE.lovable.app/auth`
-- Connecte-toi → tu accèdes à `/admin`
+### Pour Vercel
+- **Project Settings → Environment Variables** : ajoutez toutes les variables ci-dessus (mêmes noms, mêmes valeurs).
+- Cochez « Production », « Preview », « Development » selon besoin.
+- Redéployez.
 
 ---
 
-### 2️⃣ Activer le bucket public pour les images
+## 5. Migration vers votre propre projet Supabase
 
-Le bucket `media` est créé **mais privé** (policy de l'espace de travail). Pour que les images uploadées soient visibles publiquement :
+Le préview Lovable utilise actuellement la base gérée par Lovable Cloud. Pour basculer sur **votre** projet (`dafgpqzomhoqscjnscsw`) :
 
-- Va dans **Workspace Settings → Privacy & Security** (admin/owner uniquement)
-- Active **"Allow public buckets"**
-- Reviens ici et **dis-le-moi** → je passe le bucket `media` en public en une commande.
+1. **Créer le schéma** : dans le SQL Editor de votre projet, exécutez le fichier `supabase/migrations/*.sql` (tous les fichiers, dans l'ordre chronologique du nom). Cela crée : tables, `user_roles`, `has_role`, RLS, GRANTs.
 
-> Sans cette étape, les images uploadées dans le panneau admin ne s'afficheront pas sur le site public. **Étape obligatoire.**
+2. **Créer le bucket** : Storage → *Create bucket* → nom `media`, cocher **Public**.
 
----
+3. **Policies storage** (bucket `media`) — SQL Editor :
 
-### 3️⃣ Configurer Brevo (newsletter)
+   ```sql
+   -- Lecture publique
+   CREATE POLICY "Public read media" ON storage.objects
+     FOR SELECT TO anon, authenticated
+     USING (bucket_id = 'media');
 
-Le code est prêt — il manque juste 2 clés :
+   -- Écriture réservée aux admins
+   CREATE POLICY "Admins upload media" ON storage.objects
+     FOR INSERT TO authenticated
+     WITH CHECK (bucket_id = 'media' AND public.has_role(auth.uid(), 'admin'));
 
-**a. Récupérer la clé API**
-1. Va sur https://app.brevo.com → Profil → **SMTP & API** → onglet **API Keys**
-2. Clique "Generate a new API key", nomme-la "Site Viviane", copie-la (`xkeysib-...`)
+   CREATE POLICY "Admins update media" ON storage.objects
+     FOR UPDATE TO authenticated
+     USING (bucket_id = 'media' AND public.has_role(auth.uid(), 'admin'));
 
-**b. Récupérer l'ID de liste**
-1. Va dans **Contacts → Lists**
-2. Crée une liste "Newsletter Viviane" (ou utilise une existante)
-3. Note son ID (visible dans l'URL ou dans la colonne ID)
+   CREATE POLICY "Admins delete media" ON storage.objects
+     FOR DELETE TO authenticated
+     USING (bucket_id = 'media' AND public.has_role(auth.uid(), 'admin'));
+   ```
 
-**c. Me communiquer les valeurs**
-- Donne-moi simplement : `BREVO_API_KEY = xkeysib-...` et `BREVO_LIST_ID = 12` (par ex.)
-- J'ajoute les secrets côté serveur, et chaque nouvel abonné sera automatiquement ajouté à Brevo.
+4. **Seed contenu** : exécutez la dernière migration ajoutée (celle qui crée les 4 livres et les 3 notes de lecture) — présente dans `supabase/migrations/`.
 
-> Sans Brevo : les abonnés sont quand même enregistrés dans la base et exportables en CSV depuis le panneau admin.
+5. **Créer votre admin** : voir section 1.
 
----
-
-### 4️⃣ (Optionnel) Configurer l'envoi d'emails transactionnels
-
-Pour recevoir un email à chaque nouveau message de contact ou nouvelle inscription, on peut :
-- soit utiliser Brevo SMTP (déjà connecté) — dis-moi si tu veux que je l'ajoute
-- soit consulter les messages directement dans **Admin → Messages**
+6. **Basculer `.env`** avec les nouvelles clés (voir section 4).
 
 ---
 
-### 5️⃣ Publier le site
+## 6. Configuration Brevo (Newsletter)
 
-1. Ouvre **Project Settings → Domains**
-2. Clique sur **Publish** (le site sera en `viviane-moluh-peyou.lovable.app` ou similaire)
-3. Pour ton propre domaine (ex: `vivianemoluhpeyou.com`) : ajoute-le dans Domains et suis les instructions DNS
+1. Se connecter à https://app.brevo.com
+2. **API Keys** → *Generate a new API key* → copier la clé `xkeysib-...`.
+3. **Contacts → Lists** → repérer l'ID numérique de la liste (le nôtre est `3`).
+4. Coller `BREVO_API_KEY` et `BREVO_LIST_ID` dans le `.env` (et dans Vercel).
+5. **Sender** : dans Brevo → *Senders & IP → Add sender* → email `moluhviviane@yahoo.fr` (valider par email).
 
----
-
-## 📂 Où vont les images ?
-
-| Type | Bucket | Dossier | Upload |
-|---|---|---|---|
-| Couvertures de livres | `media` | `covers/` | Admin → Livres → champ "Couverture" |
-| Images de chroniques | `media` | `articles/` | Admin → Chroniques → champ "Image de couverture" |
-| Photos de la galerie | `media` | `gallery/` | Admin → Galerie → "Ajouter une photo" |
-| Ressources (PDF, etc.) | `media` | `resources/` | Admin → Ressources → champ "Fichier" |
-
-**Tout est stocké dans Lovable Cloud / Supabase Storage** — pas besoin d'un service externe (Cloudinary, AWS S3, etc.).
+Le formulaire du site enverra chaque inscription à la liste `3` **et** stockera un backup dans la table `newsletter_subscribers` (Supabase).
 
 ---
 
-## 🔧 SQL utile (à coller dans Backend → SQL Editor au besoin)
+## 7. Contact & réseaux sociaux
 
-### Promouvoir un utilisateur en admin
-```sql
-INSERT INTO public.user_roles (user_id, role)
-SELECT id, 'admin'::public.app_role
-FROM auth.users
-WHERE email = 'email@exemple.com';
-```
-
-### Retirer le rôle admin
-```sql
-DELETE FROM public.user_roles
-WHERE user_id = (SELECT id FROM auth.users WHERE email = 'email@exemple.com')
-  AND role = 'admin';
-```
-
-### Lister tous les admins
-```sql
-SELECT u.email, ur.created_at
-FROM public.user_roles ur
-JOIN auth.users u ON u.id = ur.user_id
-WHERE ur.role = 'admin';
-```
-
-### Voir les derniers abonnés newsletter
-```sql
-SELECT email, first_name, source, created_at
-FROM public.newsletter_subscribers
-ORDER BY created_at DESC
-LIMIT 50;
-```
+- **Email affiché & destinataire des messages** : `moluhviviane@yahoo.fr`
+- **Facebook** : « Viviane MOLUH PEYOU Auteure ». **URL à renseigner** dans `src/components/site/Footer.tsx` (constante `FACEBOOK_URL`). Envoyez-moi l'URL exacte et je la mets à jour.
+- Aucun autre réseau social affiché (Instagram, LinkedIn, YouTube retirés).
 
 ---
 
-## ❓ Checklist finale avant de partager le site
+## 8. Checklist finale avant publication
 
-- [ ] Premier admin créé + rôle attribué (étape 1)
-- [ ] Bucket `media` passé en public (étape 2)
-- [ ] Brevo configuré (étape 3) — optionnel mais recommandé
-- [ ] Au moins 1 livre, 1 chronique, 1 événement saisis depuis l'admin
-- [ ] Photos de couverture uploadées
-- [ ] Photo de Viviane ajoutée sur la page Biographie
-- [ ] Test du formulaire de contact (depuis le site → vérifier dans Admin → Messages)
-- [ ] Test de l'inscription newsletter
-- [ ] Publication du site (étape 5)
-- [ ] (Optionnel) Domaine personnalisé connecté
-
----
-
-## 🆘 Problèmes fréquents
-
-**« Je ne peux pas me connecter à /admin »**
-→ L'utilisateur existe mais n'a pas le rôle admin. Exécute le SQL de l'étape 1b.
-
-**« Mes images ne s'affichent pas sur le site public »**
-→ Le bucket `media` est encore privé. Voir étape 2.
-
-**« L'inscription newsletter affiche un succès mais Brevo ne reçoit rien »**
-→ Les secrets `BREVO_API_KEY` / `BREVO_LIST_ID` ne sont pas encore renseignés. Voir étape 3.
-
-**« Erreur 401 dans la console »**
-→ La session a expiré, déconnecte-toi puis reconnecte-toi depuis `/auth`.
-
----
-
-Besoin d'aide ? Dis-moi simplement à quelle étape tu es coincé, et je résous tout de suite. 🌿
+- [ ] Uploader les 4 couvertures de livres (bucket `media/covers/`)
+- [ ] Renseigner l'URL Facebook exacte dans `Footer.tsx`
+- [ ] Créer votre compte admin (section 1)
+- [ ] Vérifier que le formulaire newsletter arrive bien dans la liste Brevo `#3`
+- [ ] Vérifier que le formulaire contact arrive dans la table `contact_messages`
+- [ ] Publier depuis Lovable (bouton *Publish*) ou déployer sur Vercel
+- [ ] (optionnel) Brancher un domaine personnalisé

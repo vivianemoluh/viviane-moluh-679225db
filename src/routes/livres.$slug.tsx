@@ -137,13 +137,16 @@ function BookDetailPage() {
           <div className="mt-6 space-y-5">
             {reviews.data && reviews.data.length > 0 ? (
               reviews.data.map((r) => (
-                <figure key={r.id} className="rounded-lg border border-border/70 bg-card p-5">
-                  <blockquote className="font-quote text-xl text-foreground/85">« {r.review_text} »</blockquote>
-                  <figcaption className="mt-3 text-sm text-muted-foreground">
+                <article key={r.id} className="rounded-lg border border-border/70 bg-card p-6 shadow-sm">
+                  <div className="whitespace-pre-line font-body text-base leading-relaxed text-foreground/90">
+                    {r.review_text}
+                  </div>
+                  <p className="mt-5 border-t border-border/60 pt-4 text-sm font-medium text-primary">
                     — {r.reviewer_name}{r.reviewer_location ? `, ${r.reviewer_location}` : ""}
-                  </figcaption>
-                </figure>
+                  </p>
+                </article>
               ))
+
             ) : (
               <p className="font-quote text-lg text-muted-foreground">{t("books.noReviews")}</p>
             )}

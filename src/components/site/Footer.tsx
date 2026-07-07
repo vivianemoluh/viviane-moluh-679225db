@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { NewsletterForm } from "./NewsletterForm";
-import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Facebook, Mail } from "lucide-react";
+
+const CONTACT_EMAIL = "moluhviviane@yahoo.fr";
+const FACEBOOK_URL = "https://www.facebook.com/"; // TODO: remplacer par l'URL exacte du profil "Viviane MOLUH PEYOU Auteure"
 
 export function Footer() {
   const { t } = useTranslation();
@@ -32,11 +35,27 @@ export function Footer() {
             <li><Link to="/politique-de-confidentialite" className="hover:text-gold">{t("legal.privacyTitle")}</Link></li>
           </ul>
           <h4 className="font-display mt-6 text-base text-gold">{t("footer.follow")}</h4>
-          <div className="mt-3 flex gap-3 text-primary-foreground/80">
-            <a href="#" aria-label="Facebook" className="hover:text-gold"><Facebook size={20} /></a>
-            <a href="#" aria-label="Instagram" className="hover:text-gold"><Instagram size={20} /></a>
-            <a href="#" aria-label="LinkedIn" className="hover:text-gold"><Linkedin size={20} /></a>
-            <a href="#" aria-label="YouTube" className="hover:text-gold"><Youtube size={20} /></a>
+          <div className="mt-3 flex items-center gap-4 text-primary-foreground/80">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              aria-label={`E-mail : ${CONTACT_EMAIL}`}
+              className="inline-flex items-center gap-2 hover:text-gold"
+            >
+              <Mail size={20} />
+              <span className="text-sm">{CONTACT_EMAIL}</span>
+            </a>
+          </div>
+          <div className="mt-2 flex items-center gap-4 text-primary-foreground/80">
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook : Viviane MOLUH PEYOU Auteure"
+              className="inline-flex items-center gap-2 hover:text-gold"
+            >
+              <Facebook size={20} />
+              <span className="text-sm">Viviane MOLUH PEYOU Auteure</span>
+            </a>
           </div>
         </div>
 

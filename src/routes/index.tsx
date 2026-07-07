@@ -10,22 +10,27 @@ import { BookCard } from "@/components/site/BookCard";
 import { ChronicleCard } from "@/components/site/ChronicleCard";
 import { EventRow } from "@/components/site/EventRow";
 import { Reveal } from "@/components/site/Reveal";
+import heroPortrait from "@/assets/viviane-hero.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Viviane Moluh Peyou — Écrivaine, poétesse, chercheuse" },
+      { title: "Viviane Moluh Peyou — Écrivaine et romancière camerounaise" },
       {
         name: "description",
         content:
-          "Site officiel de Viviane Moluh Peyou. Romans, poésie, théâtre. La mise en mots des maux.",
+          "Site officiel de Viviane Moluh Peyou. Romans Les choix de l'ombre et Poùre, le mouton noir des Njoya. Manuels officiels LATINITAS. La mise en mots des maux.",
       },
+      { property: "og:title", content: "Viviane Moluh Peyou — Écrivaine et romancière" },
+      { property: "og:description", content: "Romans, manuels officiels de latin, chroniques littéraires." },
+      { property: "og:image", content: heroPortrait.url },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
   component: HomePage,
 });
+
 
 function HomePage() {
   const { t, i18n } = useTranslation();
@@ -131,12 +136,16 @@ function HomePage() {
               transition={{ duration: 1.3, ease: "easeOut", delay: 0.4 }}
               className="absolute -inset-3 border border-gold/40"
             />
-            <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-2xl">
-              <div className="text-center px-6">
-                <p className="font-display text-7xl text-gold/90">V</p>
-                <p className="font-quote mt-2 text-primary-foreground/80">Portrait à venir</p>
-              </div>
+            <div className="relative h-full w-full overflow-hidden shadow-2xl">
+              <img
+                src={heroPortrait.url}
+                alt="Portrait de Viviane Moluh Peyou, écrivaine et romancière camerounaise"
+                className="h-full w-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+              />
             </div>
+
           </motion.div>
         </div>
       </section>

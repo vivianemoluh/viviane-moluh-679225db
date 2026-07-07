@@ -4,8 +4,9 @@ export const resources = {
       meta: {
         siteName: "Viviane Moluh Peyou",
         tagline: "La mise en mots des maux",
-        defaultDescription: "Site officiel de Viviane Moluh Peyou — écrivaine, poétesse et chercheuse camerounaise.",
+        defaultDescription: "Site officiel de Viviane Moluh Peyou — écrivaine et romancière camerounaise, Inspecteur Régional de Pédagogie.",
       },
+
       nav: {
         home: "Accueil",
         biography: "Biographie",
@@ -47,12 +48,12 @@ export const resources = {
         required: "Champ obligatoire",
       },
       home: {
-        heroIntro: "Écrivaine • Poétesse • Chercheuse",
+        heroIntro: "Écrivaine • Romancière • Inspecteur Régional de Pédagogie",
         heroCta: "Découvrir mes livres",
         heroCtaSecondary: "Lire mes chroniques",
         introTitle: "Donner une voix aux silences",
         introBody:
-          "Originaire du Cameroun, Viviane Moluh Peyou explore par le roman, la poésie et le théâtre les territoires intimes et politiques des femmes. Une écriture engagée, lumineuse, qui transforme la blessure en parole.",
+          "Viviane Moluh Peyou est écrivaine et romancière camerounaise, originaire de Koumenke (Noun). Inspecteur Régional de Pédagogie, Secrétaire Générale du Collectif L'Encre des Mum, elle signe une écriture engagée qui transforme la blessure en parole.",
         featuredBooks: "Œuvres à découvrir",
         latestChronicles: "Dernières chroniques",
         upcomingEvents: "Prochaines rencontres",
@@ -61,39 +62,44 @@ export const resources = {
         newsletterBody:
           "Lettres rares, écrites avec soin : annonces de parutions, événements et réflexions inédites.",
       },
+
       bio: {
         title: "Biographie",
-        kicker: "À propos de l'autrice",
+        kicker: "À propos de l'auteure",
         leadFr:
-          "Viviane Moluh Peyou est écrivaine, poétesse et chercheuse camerounaise. Titulaire d'une formation en Lettres Modernes, majore de promotion de l'ENS de Yaoundé en 2007, elle conjugue rigueur académique et écriture sensible.",
-        expertiseTitle: "Expertise professionnelle",
+          "Viviane MOLUH PEYOU est diplômée de l'École Normale Supérieure de Yaoundé et actuellement Inspecteur Régional de Pédagogie.",
+        expertiseTitle: "Parcours & responsabilités",
         expertiseBody:
-          "Spécialiste des questions de violences faites aux femmes et de l'ingénierie pédagogique, elle accompagne institutions et organisations dans la prévention, la formation et la conception de dispositifs éducatifs.",
-        visionTitle: "Vision de l'écriture",
+          "Secrétaire Générale du Collectif des écrivains L'Encre des Mum, Secrétaire à la Communication du Cercle des Enseignants de Lettres Classiques du Cameroun (CELCLAC), et tuteur-coach dans le Programme d'Appui au Développement de l'Enseignement pour la Croissance et l'Emploi (PADESCE) impulsé par la Banque Mondiale. Originaire de Koumenke, dans le Noun.",
+        visionTitle: "Œuvre",
         visionBody:
-          "Écrire, c'est pour elle déplier le silence : rendre lisibles les vies tues, restituer aux femmes la pleine puissance de leur récit, et offrir à la langue française les inflexions du continent africain.",
+          "Auteure de deux romans — Les choix de l'ombre (Masque et Cauris, 2021) et Poùre, le mouton noir des Njoya (AfricAvenir, 2021) — et co-auteure des manuels officiels LATINITAS (Éclosion, 2024) inscrits sur la liste officielle des manuels scolaires au Cameroun. Elle a également supervisé la rédaction des 61ᵉ et 62ᵉ collections des recueils de Contes d'Enfants d'Afrique dans le Programme ACS-Cameroun (Ducere Foundation Ltd, 2024).",
         timelineTitle: "Jalons",
         timeline: [
-          { year: "2007", text: "Majore de promotion en Lettres Modernes, ENS de Yaoundé" },
-          { year: "2018", text: "Co-direction de l'anthologie collective Gestes poétiques" },
-          { year: "2020", text: "Publication du roman Poùre, le mouton noir des Njoya" },
-          { year: "2022", text: "Publication du roman Les choix de l'ombre" },
-          { year: "2025", text: "Création de la pièce de théâtre Le silence des gènes" },
+          { year: "ENS Yaoundé", text: "Diplômée de l'École Normale Supérieure de Yaoundé." },
+          { year: "2021", text: "Publication du roman Les choix de l'ombre (Masque et Cauris)." },
+          { year: "2021", text: "Publication du roman Poùre, le mouton noir des Njoya (AfricAvenir)." },
+          { year: "2024", text: "Co-auteure des manuels officiels LATINITAS 6ᵉ/5ᵉ et 4ᵉ/3ᵉ (Éclosion)." },
+          { year: "2024", text: "Supervision des 61ᵉ et 62ᵉ collections des Contes d'Enfants d'Afrique — Programme ACS-Cameroun (Ducere Foundation Ltd)." },
+          { year: "Aujourd'hui", text: "Inspecteur Régional de Pédagogie. Secrétaire Générale de L'Encre des Mum. Secrétaire à la Communication du CELCLAC. Tuteur-coach PADESCE (Banque Mondiale)." },
         ],
         pressKit: "Télécharger le dossier de presse",
       },
+
       books: {
         title: "Mes livres",
-        intro: "Romans, poésie, théâtre. Une œuvre traversée par les questions de mémoire, de liberté et de transmission.",
+        intro: "Romans et manuels officiels de latin. Une œuvre entre littérature engagée et transmission pédagogique.",
         readSummary: "Lire le résumé",
         excerpt: "Extrait gratuit (PDF)",
         buyTitle: "Où se procurer le livre",
-        reviewsTitle: "Ce qu'en disent les lectrices et lecteurs",
-        noReviews: "Soyez le premier à laisser un témoignage.",
+        reviewsTitle: "Notes de lecture",
+        noReviews: "Les notes de lecture seront publiées ici.",
         otherBooks: "Autres œuvres",
         publishedIn: "Paru en",
         genre: "Genre",
+        officialBadge: "Manuel officiel — Ministère de l'Éducation",
       },
+
       chronicles: {
         title: "Chroniques & Réflexions",
         intro: "Notes d'écriture, lectures du monde, échos de l'actualité littéraire.",
@@ -101,12 +107,13 @@ export const resources = {
           all: "Toutes",
           reflexions: "Réflexions personnelles",
           actualites: "Actualités",
-          publications: "Publications",
+          publications: "Notes de lecture",
         },
         searchPlaceholder: "Rechercher un article…",
         empty: "Les premières chroniques arrivent bientôt.",
-        authorCardTitle: "À propos de l'autrice",
+        authorCardTitle: "À propos de l'auteure",
       },
+
       agenda: {
         title: "Agenda",
         intro: "Conférences, dédicaces, salons et rencontres littéraires.",
@@ -200,8 +207,9 @@ export const resources = {
       meta: {
         siteName: "Viviane Moluh Peyou",
         tagline: "Giving words to wounds",
-        defaultDescription: "Official website of Viviane Moluh Peyou — Cameroonian writer, poet, and researcher.",
+        defaultDescription: "Official website of Viviane Moluh Peyou — Cameroonian writer and novelist, Regional Pedagogical Inspector.",
       },
+
       nav: {
         home: "Home",
         biography: "Biography",
@@ -243,12 +251,12 @@ export const resources = {
         required: "Required field",
       },
       home: {
-        heroIntro: "Writer • Poet • Researcher",
+        heroIntro: "Writer • Novelist • Regional Pedagogical Inspector",
         heroCta: "Discover my books",
         heroCtaSecondary: "Read my chronicles",
         introTitle: "Giving voice to silences",
         introBody:
-          "From Cameroon, Viviane Moluh Peyou explores through novels, poetry, and theatre the intimate and political territories of women's lives. A luminous, committed body of work that turns wounds into words.",
+          "Viviane Moluh Peyou is a Cameroonian writer and novelist from Koumenke (Noun). Regional Pedagogical Inspector and Secretary General of the L'Encre des Mum collective, she writes engaged fiction that turns wounds into words.",
         featuredBooks: "Featured works",
         latestChronicles: "Latest chronicles",
         upcomingEvents: "Upcoming events",
@@ -261,35 +269,38 @@ export const resources = {
         title: "Biography",
         kicker: "About the author",
         leadFr:
-          "Viviane Moluh Peyou is a Cameroonian writer, poet, and researcher. Trained in Modern Literature and top of her class at ENS Yaoundé in 2007, she combines academic rigor with sensitive, literary writing.",
-        expertiseTitle: "Professional expertise",
+          "Viviane MOLUH PEYOU is a graduate of the École Normale Supérieure of Yaoundé and currently a Regional Pedagogical Inspector.",
+        expertiseTitle: "Roles & responsibilities",
         expertiseBody:
-          "A specialist in gender-based violence and pedagogical engineering, she works with institutions and organisations on prevention, training, and the design of educational programmes.",
-        visionTitle: "A vision of writing",
+          "Secretary General of the L'Encre des Mum writers' collective, Communication Secretary of the Cameroon Circle of Classics Teachers (CELCLAC), and tutor-coach for the World Bank's PADESCE programme (Support Programme for the Development of Education for Growth and Employment). Originally from Koumenke, in the Noun division.",
+        visionTitle: "Body of work",
         visionBody:
-          "For her, writing means unfolding silence: making visible the lives that have been hushed, returning to women the full power of their stories, and offering the French language the inflections of the African continent.",
+          "Author of two novels — Les choix de l'ombre (Masque et Cauris, 2021) and Poùre, le mouton noir des Njoya (AfricAvenir, 2021) — and co-author of the official LATINITAS Latin textbooks (Éclosion, 2024), listed on Cameroon's official schoolbook list. She also supervised the 61st and 62nd collections of Contes d'Enfants d'Afrique for the ACS-Cameroon programme (Ducere Foundation Ltd, 2024).",
         timelineTitle: "Milestones",
         timeline: [
-          { year: "2007", text: "Top of her class in Modern Literature, ENS Yaoundé" },
-          { year: "2018", text: "Co-editor of the collective anthology Gestes poétiques" },
-          { year: "2020", text: "Publication of the novel Poùre, le mouton noir des Njoya" },
-          { year: "2022", text: "Publication of the novel Les choix de l'ombre" },
-          { year: "2025", text: "Premiere of the theatre play Le silence des gènes" },
+          { year: "ENS Yaoundé", text: "Graduated from the École Normale Supérieure of Yaoundé." },
+          { year: "2021", text: "Publication of the novel Les choix de l'ombre (Masque et Cauris)." },
+          { year: "2021", text: "Publication of the novel Poùre, le mouton noir des Njoya (AfricAvenir)." },
+          { year: "2024", text: "Co-author of the official LATINITAS 6ᵉ/5ᵉ and 4ᵉ/3ᵉ textbooks (Éclosion)." },
+          { year: "2024", text: "Supervised the 61st and 62nd Contes d'Enfants d'Afrique collections — ACS-Cameroon programme (Ducere Foundation Ltd)." },
+          { year: "Today", text: "Regional Pedagogical Inspector. Secretary General of L'Encre des Mum. Communication Secretary of CELCLAC. PADESCE tutor-coach (World Bank)." },
         ],
         pressKit: "Download the press kit",
       },
       books: {
         title: "My Books",
-        intro: "Novels, poetry, theatre. A body of work shaped by memory, freedom, and transmission.",
+        intro: "Novels and official Latin textbooks — literature and pedagogy side by side.",
         readSummary: "Read summary",
         excerpt: "Free excerpt (PDF)",
         buyTitle: "Where to buy",
-        reviewsTitle: "What readers are saying",
-        noReviews: "Be the first to share your thoughts.",
+        reviewsTitle: "Reading notes",
+        noReviews: "Reading notes will be published here.",
         otherBooks: "Other works",
         publishedIn: "Published in",
         genre: "Genre",
+        officialBadge: "Official textbook — Ministry of Education",
       },
+
       chronicles: {
         title: "Chronicles & Reflections",
         intro: "Notes on writing, readings of the world, echoes from the literary world.",
@@ -297,7 +308,7 @@ export const resources = {
           all: "All",
           reflexions: "Personal reflections",
           actualites: "News",
-          publications: "Publications",
+          publications: "Reading notes",
         },
         searchPlaceholder: "Search an article…",
         empty: "The first chronicles will appear here soon.",
