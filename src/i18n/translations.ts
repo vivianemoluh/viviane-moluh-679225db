@@ -308,7 +308,7 @@ export const resources = {
           all: "All",
           reflexions: "Personal reflections",
           actualites: "News",
-          publications: "Publications",
+          publications: "Reading notes",
         },
         searchPlaceholder: "Search an article…",
         empty: "The first chronicles will appear here soon.",
