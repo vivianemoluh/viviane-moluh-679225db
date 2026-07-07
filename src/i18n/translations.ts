@@ -107,12 +107,13 @@ export const resources = {
           all: "Toutes",
           reflexions: "Réflexions personnelles",
           actualites: "Actualités",
-          publications: "Publications",
+          publications: "Notes de lecture",
         },
         searchPlaceholder: "Rechercher un article…",
         empty: "Les premières chroniques arrivent bientôt.",
-        authorCardTitle: "À propos de l'autrice",
+        authorCardTitle: "À propos de l'auteure",
       },
+
       agenda: {
         title: "Agenda",
         intro: "Conférences, dédicaces, salons et rencontres littéraires.",
