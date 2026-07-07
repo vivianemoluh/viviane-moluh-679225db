@@ -136,12 +136,16 @@ function HomePage() {
               transition={{ duration: 1.3, ease: "easeOut", delay: 0.4 }}
               className="absolute -inset-3 border border-gold/40"
             />
-            <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-2xl">
-              <div className="text-center px-6">
-                <p className="font-display text-7xl text-gold/90">V</p>
-                <p className="font-quote mt-2 text-primary-foreground/80">Portrait à venir</p>
-              </div>
+            <div className="relative h-full w-full overflow-hidden shadow-2xl">
+              <img
+                src={heroPortrait.url}
+                alt="Portrait de Viviane Moluh Peyou, écrivaine et romancière camerounaise"
+                className="h-full w-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+              />
             </div>
+
           </motion.div>
         </div>
       </section>
