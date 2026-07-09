@@ -137,17 +137,7 @@ function BookDetailPage() {
           <h2 className="text-2xl">{t("books.reviewsTitle")}</h2>
           <div className="mt-6 space-y-5">
             {reviews.data && reviews.data.length > 0 ? (
-              reviews.data.map((r) => (
-                <article key={r.id} className="rounded-lg border border-border/70 bg-card p-6 shadow-sm">
-                  <div className="whitespace-pre-line font-body text-base leading-relaxed text-foreground/90">
-                    {r.review_text}
-                  </div>
-                  <p className="mt-5 border-t border-border/60 pt-4 text-sm font-medium text-primary">
-                    — {r.reviewer_name}{r.reviewer_location ? `, ${r.reviewer_location}` : ""}
-                  </p>
-                </article>
-              ))
-
+              reviews.data.map((r) => <ReviewCard key={r.id} review={r} />)
             ) : (
               <p className="font-quote text-lg text-muted-foreground">{t("books.noReviews")}</p>
             )}
