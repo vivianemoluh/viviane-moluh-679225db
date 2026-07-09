@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import type { Book, Review } from "@/lib/types";
 import { BookCard } from "@/components/site/BookCard";
+import { ReviewCard } from "@/components/site/ReviewCard";
 
 export const Route = createFileRoute("/livres/$slug")({
   head: ({ params }) => ({
