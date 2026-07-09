@@ -1,4 +1,22 @@
 
+-- =========================================================
+-- RESET COMPLET (à exécuter si les tables existent déjà)
+-- ⚠️ Supprime toutes les données du site. À utiliser
+--    uniquement pour repartir de zéro.
+-- =========================================================
+DROP TABLE IF EXISTS public.contact_messages CASCADE;
+DROP TABLE IF EXISTS public.newsletter_subscribers CASCADE;
+DROP TABLE IF EXISTS public.reviews CASCADE;
+DROP TABLE IF EXISTS public.resources CASCADE;
+DROP TABLE IF EXISTS public.gallery CASCADE;
+DROP TABLE IF EXISTS public.events CASCADE;
+DROP TABLE IF EXISTS public.articles CASCADE;
+DROP TABLE IF EXISTS public.books CASCADE;
+DROP TABLE IF EXISTS public.user_roles CASCADE;
+DROP FUNCTION IF EXISTS public.has_role(uuid, public.app_role) CASCADE;
+DROP TYPE IF EXISTS public.app_role CASCADE;
+-- =========================================================
+
 -- BOOKS
 CREATE TABLE public.books (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
