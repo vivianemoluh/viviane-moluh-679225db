@@ -10,7 +10,7 @@ import { BookCard } from "@/components/site/BookCard";
 import { ChronicleCard } from "@/components/site/ChronicleCard";
 import { EventRow } from "@/components/site/EventRow";
 import { Reveal } from "@/components/site/Reveal";
-import heroPortrait from "@/assets/viviane-hero.jpg.asset.json";
+const heroPortrait = { url: "https://dafgpqzomhoqscjnscsw.supabase.co/storage/v1/object/public/media/hero/viviane-portrait.jpg" };
 
 export const Route = createFileRoute("/")({
   head: () => ({
