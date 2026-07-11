@@ -34,8 +34,16 @@ function AdminLayout() {
     retry: 2,
     retryDelay: 350,
     queryFn: async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) throw new Error("Session admin pas encore chargée");
+      let sessionReady = false;
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          sessionReady = true;
+          break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      }
+      if (!sessionReady) throw new Error("Session admin pas encore chargée");
       const result = await checkAdmin();
       console.log("[admin] has_role() result after login", result);
       return result;
