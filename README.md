@@ -72,7 +72,7 @@ La photo actuelle vous a été fournie par vous-même (`hero_pictures.jpg`) et e
 |---|---|
 | `.env` | Vos vraies clés (à la racine, **jamais commité**) |
 | `.env.example` | Modèle des variables attendues (commité, sans secrets) |
-| `src/integrations/supabase/client.ts` | Lit `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY` (frontend) |
+| `src/integrations/supabase/client.ts` | Lit uniquement `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY` (frontend) |
 | `src/integrations/supabase/client.server.ts` | Lit `SUPABASE_SERVICE_ROLE_KEY` (server functions) |
 | `src/lib/newsletter.functions.ts` | Lit `BREVO_API_KEY` + `BREVO_LIST_ID` (envoi Brevo) |
 
@@ -85,10 +85,6 @@ La photo actuelle vous a été fournie par vous-même (`hero_pictures.jpg`) et e
 # --- Supabase (nouveau projet perso) ---
 VITE_SUPABASE_URL="https://dafgpqzomhoqscjnscsw.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_KEY="votre_anon_key"
-VITE_SUPABASE_PROJECT_ID="dafgpqzomhoqscjnscsw"
-SUPABASE_URL="https://dafgpqzomhoqscjnscsw.supabase.co"
-SUPABASE_PUBLISHABLE_KEY="votre_anon_key"
-SUPABASE_PROJECT_ID="dafgpqzomhoqscjnscsw"
 SUPABASE_SERVICE_ROLE_KEY="votre_service_role_key"
 
 # --- Brevo (Newsletter) ---
@@ -105,7 +101,7 @@ BREVO_LIST_ID="3"
 
 ## 5. Migration vers votre propre projet Supabase
 
-Le préview Lovable utilise actuellement la base gérée par Lovable Cloud. Pour basculer sur **votre** projet (`dafgpqzomhoqscjnscsw`) :
+Le preview Lovable et Vercel doivent utiliser le même projet externe (`dafgpqzomhoqscjnscsw`) via les variables d'environnement ci-dessus :
 
 1. **Créer le schéma** : dans le SQL Editor de votre projet, exécutez le fichier `supabase/migrations/*.sql` (tous les fichiers, dans l'ordre chronologique du nom). Cela crée : tables, `user_roles`, `has_role`, RLS, GRANTs.
 

@@ -7,18 +7,24 @@ import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
-  beforeLoad: async () => {
+  validateSearch: (search) => ({
+    error: typeof search.error === "string" ? search.error : undefined,
+  }),
+  beforeLoad: async ({ search }) => {
     const { data } = await supabase.auth.getUser();
-    if (data.user) throw redirect({ to: "/admin" });
+    if (data.user && search.error !== "not_admin") throw redirect({ to: "/admin" });
   },
   component: AuthPage,
 });
 
 function AuthPage() {
+  const search = Route.useSearch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [err, setErr] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(
+    search.error === "not_admin" ? "Ce compte n'a pas le rôle admin." : null,
+  );
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
@@ -26,8 +32,10 @@ function AuthPage() {
     setErr(null);
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) return setErr(error.message);
+    if (error) {
+      setLoading(false);
+      return setErr(error.message);
+    }
     navigate({ to: "/admin" });
   }
 
@@ -48,7 +56,7 @@ function AuthPage() {
         </div>
         {err && <p className="text-sm text-destructive">{err}</p>}
         <Button type="submit" disabled={loading} className="w-full">
-          {loading ? "Connexion…" : "Se connecter"}
+          {loading ? "Connexion et vérification…" : "Se connecter"}
         </Button>
       </form>
     </div>

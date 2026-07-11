@@ -1,29 +1,14 @@
-import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { checkCurrentUserAdmin } from "@/lib/admin-auth.functions";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   ssr: false,
-  beforeLoad: async ({ context }) => {
-    let user = (context as { user?: { id: string } }).user;
-    if (!user) {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) throw redirect({ to: "/auth" });
-      user = data.user;
-    }
-    // Use the has_role SECURITY DEFINER RPC — bypasses RLS on user_roles
-    // and avoids race conditions between session hydration and role lookup.
-    const { data: isAdmin, error } = await supabase.rpc("has_role", {
-      _user_id: user.id,
-      _role: "admin",
-    });
-    if (error) {
-      console.error("[admin] has_role RPC failed", error);
-      throw redirect({ to: "/auth", search: { error: "not_admin" } as never });
-    }
-    if (!isAdmin) throw redirect({ to: "/auth", search: { error: "not_admin" } as never });
-  },
   component: AdminLayout,
 });
 
@@ -41,11 +26,77 @@ const LINKS: Array<{ to: string; label: string }> = [
 
 function AdminLayout() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const checkAdmin = useServerFn(checkCurrentUserAdmin);
+  const adminCheck = useQuery({
+    queryKey: ["admin-role-check"],
+    retry: 2,
+    retryDelay: 350,
+    queryFn: async () => {
+      let sessionReady = false;
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          sessionReady = true;
+          break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      }
+      if (!sessionReady) throw new Error("Session admin pas encore chargée");
+      const result = await checkAdmin();
+      console.log("[admin] has_role() result after login", result);
+      return result;
+    },
+  });
+
+  useEffect(() => {
+    if (!adminCheck.data || adminCheck.data.isAdmin) return;
+    console.warn("[admin] has_role() confirmed non-admin", adminCheck.data);
+    void supabase.auth.signOut().finally(() => {
+      navigate({ to: "/auth", search: { error: "not_admin" } as never, replace: true });
+    });
+  }, [adminCheck.data, navigate]);
 
   async function signOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth" });
+    navigate({ to: "/auth", replace: true });
+  }
+
+  if (adminCheck.isLoading || adminCheck.isFetching) {
+    return (
+      <div className="mx-auto flex min-h-[55vh] max-w-md flex-col items-center justify-center px-4 text-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" aria-hidden />
+        <h1 className="mt-5 font-display text-2xl text-primary">Vérification admin…</h1>
+        <p className="mt-2 text-sm text-muted-foreground">Connexion établie, validation du rôle en cours.</p>
+      </div>
+    );
+  }
+
+  if (adminCheck.isError) {
+    console.error("[admin] role check failed", adminCheck.error);
+    return (
+      <div className="mx-auto flex min-h-[55vh] max-w-md flex-col items-center justify-center px-4 text-center">
+        <h1 className="font-display text-2xl text-primary">Vérification admin impossible</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          La session est chargée, mais la vérification du rôle admin a échoué. Consultez la console pour le résultat de has_role().
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <Button onClick={() => adminCheck.refetch()}>Réessayer</Button>
+          <Button variant="outline" onClick={signOut}>Se déconnecter</Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!adminCheck.data?.isAdmin) {
+    return (
+      <div className="mx-auto flex min-h-[55vh] max-w-md flex-col items-center justify-center px-4 text-center">
+        <h1 className="font-display text-2xl text-primary">Redirection…</h1>
+      </div>
+    );
   }
 
   return (

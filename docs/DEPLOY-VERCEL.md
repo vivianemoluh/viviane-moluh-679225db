@@ -119,10 +119,6 @@ Vercel → votre projet → **Settings** → **Environment Variables** → ajout
 |---|---|
 | `VITE_SUPABASE_URL` | `https://dafgpqzomhoqscjnscsw.supabase.co` |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | `eyJhbGciOi...QBOrLqnF...` (anon key) |
-| `VITE_SUPABASE_PROJECT_ID` | `dafgpqzomhoqscjnscsw` |
-| `SUPABASE_URL` | idem VITE_SUPABASE_URL |
-| `SUPABASE_PUBLISHABLE_KEY` | idem VITE_SUPABASE_PUBLISHABLE_KEY |
-| `SUPABASE_PROJECT_ID` | `dafgpqzomhoqscjnscsw` |
 | `SUPABASE_SERVICE_ROLE_KEY` | `eyJhbGciOi...QKEIjW8b...` (SECRET) |
 | `BREVO_API_KEY` | `xkeysib-840a...` |
 | `BREVO_LIST_ID` | `3` |
