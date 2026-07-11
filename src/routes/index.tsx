@@ -10,7 +10,7 @@ import { BookCard } from "@/components/site/BookCard";
 import { ChronicleCard } from "@/components/site/ChronicleCard";
 import { EventRow } from "@/components/site/EventRow";
 import { Reveal } from "@/components/site/Reveal";
-const heroPortrait = { url: "https://dafgpqzomhoqscjnscsw.supabase.co/storage/v1/object/public/media/hero/viviane-portrait.jpg" };
+const heroPortrait = { url: "https://res.cloudinary.com/viryenyp/image/upload/v1783724790/viviane-portrait_hhdop8.jpg" };
 
 export const Route = createFileRoute("/")({
   head: () => ({
