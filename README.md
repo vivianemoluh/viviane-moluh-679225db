@@ -85,10 +85,6 @@ La photo actuelle vous a été fournie par vous-même (`hero_pictures.jpg`) et e
 # --- Supabase (nouveau projet perso) ---
 VITE_SUPABASE_URL="https://dafgpqzomhoqscjnscsw.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_KEY="votre_anon_key"
-VITE_SUPABASE_PROJECT_ID="dafgpqzomhoqscjnscsw"
-SUPABASE_URL="https://dafgpqzomhoqscjnscsw.supabase.co"
-SUPABASE_PUBLISHABLE_KEY="votre_anon_key"
-SUPABASE_PROJECT_ID="dafgpqzomhoqscjnscsw"
 SUPABASE_SERVICE_ROLE_KEY="votre_service_role_key"
 
 # --- Brevo (Newsletter) ---
