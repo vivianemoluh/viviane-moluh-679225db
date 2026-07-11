@@ -1,15 +1,28 @@
-import { supabase } from "@/integrations/supabase/client";
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string | undefined;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET as string | undefined;
 
-export async function uploadMedia(file: File, folder = "uploads"): Promise<string> {
-  const ext = file.name.split(".").pop() || "bin";
-  const path = `${folder}/${crypto.randomUUID()}.${ext}`;
-  const { error } = await supabase.storage.from("media").upload(path, file, {
-    cacheControl: "31536000",
-    upsert: false,
+export async function uploadMedia(file: File, _folder = "uploads"): Promise<string> {
+  if (!CLOUD_NAME || !UPLOAD_PRESET) {
+    throw new Error(
+      "Cloudinary non configuré. Définissez VITE_CLOUDINARY_CLOUD_NAME et VITE_CLOUDINARY_UPLOAD_PRESET.",
+    );
+  }
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", UPLOAD_PRESET);
+  if (_folder) form.append("folder", _folder);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, {
+    method: "POST",
+    body: form,
   });
-  if (error) throw error;
-  const { data } = supabase.storage.from("media").getPublicUrl(path);
-  return data.publicUrl;
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Échec de l'upload Cloudinary: ${res.status} ${txt}`);
+  }
+  const json = (await res.json()) as { secure_url?: string };
+  if (!json.secure_url) throw new Error("Réponse Cloudinary invalide (secure_url manquant).");
+  return json.secure_url;
 }
 
 export function slugify(s: string) {

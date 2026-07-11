@@ -6,15 +6,23 @@ import { LogOut } from "lucide-react";
 export const Route = createFileRoute("/_authenticated/admin")({
   ssr: false,
   beforeLoad: async ({ context }) => {
-    const user = (context as { user?: { id: string } }).user;
-    if (!user) throw redirect({ to: "/auth" });
-    const { data, error } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (error || !data) throw redirect({ to: "/auth", search: { error: "not_admin" } as never });
+    let user = (context as { user?: { id: string } }).user;
+    if (!user) {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) throw redirect({ to: "/auth" });
+      user = data.user;
+    }
+    // Use the has_role SECURITY DEFINER RPC — bypasses RLS on user_roles
+    // and avoids race conditions between session hydration and role lookup.
+    const { data: isAdmin, error } = await supabase.rpc("has_role", {
+      _user_id: user.id,
+      _role: "admin",
+    });
+    if (error) {
+      console.error("[admin] has_role RPC failed", error);
+      throw redirect({ to: "/auth", search: { error: "not_admin" } as never });
+    }
+    if (!isAdmin) throw redirect({ to: "/auth", search: { error: "not_admin" } as never });
   },
   component: AdminLayout,
 });
